@@ -1,0 +1,137 @@
+<html>
+
+<head>
+    <script src="javaScript/external/jquery-3.0.0.js"></script>
+    <script src="javaScript/external/d3.js"></script>
+
+    <link rel="stylesheet" href="css/material.css">
+    <link rel="stylesheet" href="css/mdl-jquery-modal-dialog.css">
+
+    <script src="javaScript/external/opencga-client/opencga-client.js"></script>
+    <script src="javaScript/external/opencga-client/opencga-client-config.js"></script>
+    <script src="javaScript/external/opencga-client/rest-client.js"></script>
+
+    <script src="javaScript/catalogMethods.js"></script>
+    <script src="javaScript/enricUtils.js"></script>
+    <script src="javaScript/Cookies.js"></script>
+    <script src="javaScript/external/underscore.js"></script>
+    <script src="javaScript/external/kernelEstimation.js"></script>
+    <script src="javaScript/scatterplotD3.js"></script>
+    <script src="javaScript/2DMethods.js"></script>
+
+
+    <script src="javaScript/d3Plots.js"></script>
+
+    <script src="javaScript/filteringCatalog.js"></script>
+    <script src="javaScript/external/jstat.min.js"></script>
+    <script src="javaScript/external/mdl-jquery-modal-dialog.js"></script>
+    <script src="javaScript/external/dialogPolyfill.js"></script>
+    <script src="javaScript/external/material.min.js"></script>
+    <script src="javaScript/parseResultObject.js"></script>
+    <script src="javaScript/barchartPlotExample.js"></script>
+    <script src="javaScript/tieringObject.js"></script>
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+</head>
+
+<body>
+
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Tiering Summary</span>
+        </div>
+
+    </header>
+
+    <main class="mdl-layout__content">
+        <div class="mdl-tabs mdl-js-tabs">
+            <div class="mdl-tabs__tab-bar">
+                <a href="#OneDPlots" class="mdl-tabs__tab is-active">1D Plots</a>
+                <a href="#TwoDPlots" class="mdl-tabs__tab">2D Plots</a>
+            </div>
+
+            <div class="mdl-tabs__panel is-active" id="OneDPlots">
+
+                <div class="mdl-layout__drawer">
+
+                    <span class="mdl-layout-title">TOOLS</span>
+                    <nav class="mdl-navigation">
+                        <a class="mdl-navigation__link" id="gotToMainMenu" href="http://localhost:8080/labkey">Main menu</a>
+                    </nav>
+
+                </div>
+
+                <div id="DropDownToPlot1DContainer">
+
+                    <select style="margin: 50px 0 0 50px;" id="DropDownToPlot1D">
+                    </select>
+                    <button onclick="plotSelected()">
+                        Plot distribution
+                    </button>
+
+                </div>
+
+                <div  id="oneDimensionPlot" style="margin: 100px; width: 1000px; height:600px">
+                    <svg id="1DPlot" class="chart">
+
+                    </svg>
+                </div>
+            </div>
+
+
+            <div class="mdl-tabs__panel" id="TwoDPlots">
+
+                <div class="mdl-layout__drawer">
+
+                    <span class="mdl-layout-title">TOOLS</span>
+                    <nav class="mdl-navigation">
+                        <a class="mdl-navigation__link" id="gotToMainMenu" href="http://localhost:8080/labkey">Main menu</a>
+                    </nav>
+
+                </div>
+
+                <div id="DropDownToPlot2DContainer">
+
+                    <select style="margin: 50px 0 0 50px;" id="DropDownToPlot2DFirstDimension">
+                    </select>
+                    <select style="margin: 50px 0 0 200px;" id="DropDownToPlot2DSecondDimension">
+                    </select>
+                    <button onclick="plot2DPlot()">
+                        Plot distribution
+                    </button>
+                </div>
+
+                <div  id="twoDimensionPlot" style="margin: 100px; width: 1000px; height:600px">
+                    <svg id="2DPlot" class="chart">
+
+                    </svg>
+                </div>
+            </div>
+
+
+        </div>
+    </main>
+
+</body>
+<script>
+    var myKeys = Object.keys(tieringObject);
+
+    for (var i = 0; i < myKeys.length; i++) {
+        document.getElementById("DropDownToPlot1D").appendChild(enricUtils.dom.createElement("option", {textContent: myKeys[i]}));
+        document.getElementById("DropDownToPlot2DSecondDimension").appendChild(enricUtils.dom.createElement("option", {textContent: myKeys[i]}));
+        document.getElementById("DropDownToPlot2DFirstDimension").appendChild(enricUtils.dom.createElement("option", {textContent: myKeys[i]}));
+
+    }
+
+    var plot2DPlot = function(){
+        return bidimensionalQuery(document.getElementById("DropDownToPlot2DFirstDimension").value, document.getElementById("DropDownToPlot2DSecondDimension").value)
+    }
+
+</script>
+</html>
